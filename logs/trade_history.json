@@ -1,0 +1,29 @@
+[
+    {
+        "timestamp": "2025-12-15 01:08:49",
+        "action": "OPEN_SHORT",
+        "price": 88917.3,
+        "amount": 0.01,
+        "tag": "策略訊號",
+        "realized_pnl": 0.0,
+        "account_equity": 1000.0
+    },
+    {
+        "timestamp": "2025-12-15 02:01:12",
+        "action": "OPEN_SHORT",
+        "price": 88716.3,
+        "amount": 0.01,
+        "tag": "策略訊號",
+        "realized_pnl": 0.0,
+        "account_equity": 1000.0
+    },
+    {
+        "timestamp": "2025-12-15 02:01:29",
+        "action": "OPEN_SHORT",
+        "price": 88707.8,
+        "amount": 0.1,
+        "tag": "策略訊號",
+        "realized_pnl": 0.0,
+        "account_equity": 1000.0
+    }
+]
