@@ -1,29 +1,152 @@
 [
     {
-        "timestamp": "2025-12-15 01:08:49",
-        "action": "OPEN_SHORT",
-        "price": 88917.3,
-        "amount": 0.01,
+        "timestamp": "2025-12-17 01:08:36",
+        "symbol": "BTC-USDT",
+        "action": "OPEN_LONG",
+        "price": 87758.88,
+        "amount": 0.001,
         "tag": "策略訊號",
         "realized_pnl": 0.0,
-        "account_equity": 1000.0
+        "balance": 1000.0
     },
     {
-        "timestamp": "2025-12-15 02:01:12",
-        "action": "OPEN_SHORT",
-        "price": 88716.3,
-        "amount": 0.01,
+        "timestamp": "2025-12-17 01:08:53",
+        "symbol": "ETH-USDT",
+        "action": "OPEN_LONG",
+        "price": 2948.67,
+        "amount": 0.001,
         "tag": "策略訊號",
         "realized_pnl": 0.0,
-        "account_equity": 1000.0
+        "balance": 1000.0
     },
     {
-        "timestamp": "2025-12-15 02:01:29",
-        "action": "OPEN_SHORT",
-        "price": 88707.8,
-        "amount": 0.1,
+        "timestamp": "2025-12-17 01:09:10",
+        "symbol": "SOL-USDT",
+        "action": "OPEN_LONG",
+        "price": 128.26,
+        "amount": 0.001,
         "tag": "策略訊號",
         "realized_pnl": 0.0,
-        "account_equity": 1000.0
+        "balance": 1000.0
+    },
+    {
+        "timestamp": "2025-12-17 01:09:24",
+        "symbol": "DOGE-USDT",
+        "action": "OPEN_LONG",
+        "price": 0.132,
+        "amount": 0.001,
+        "tag": "策略訊號",
+        "realized_pnl": 0.0,
+        "balance": 1000.0
+    },
+    {
+        "timestamp": "2025-12-17 01:09:43",
+        "symbol": "BNB-USDT",
+        "action": "OPEN_LONG",
+        "price": 871.76,
+        "amount": 0.001,
+        "tag": "策略訊號",
+        "realized_pnl": 0.0,
+        "balance": 1000.0
+    },
+    {
+        "timestamp": "2025-12-17 01:12:10",
+        "symbol": "BTC-USDT",
+        "action": "OPEN_LONG",
+        "price": 87794.93,
+        "amount": 0.001,
+        "tag": "策略訊號",
+        "realized_pnl": 0.0,
+        "balance": 1000.0
+    },
+    {
+        "timestamp": "2025-12-17 01:12:28",
+        "symbol": "ETH-USDT",
+        "action": "OPEN_LONG",
+        "price": 2952.54,
+        "amount": 0.001,
+        "tag": "策略訊號",
+        "realized_pnl": 0.0,
+        "balance": 1000.0
+    },
+    {
+        "timestamp": "2025-12-17 01:12:44",
+        "symbol": "SOL-USDT",
+        "action": "OPEN_LONG",
+        "price": 128.43,
+        "amount": 0.001,
+        "tag": "策略訊號",
+        "realized_pnl": 0.0,
+        "balance": 1000.0
+    },
+    {
+        "timestamp": "2025-12-17 01:13:00",
+        "symbol": "DOGE-USDT",
+        "action": "OPEN_LONG",
+        "price": 0.13201,
+        "amount": 0.001,
+        "tag": "策略訊號",
+        "realized_pnl": 0.0,
+        "balance": 1000.0
+    },
+    {
+        "timestamp": "2025-12-17 01:13:19",
+        "symbol": "BNB-USDT",
+        "action": "OPEN_LONG",
+        "price": 871.15,
+        "amount": 0.001,
+        "tag": "策略訊號",
+        "realized_pnl": 0.0,
+        "balance": 1000.0
+    },
+    {
+        "timestamp": "2025-12-17 01:19:37",
+        "symbol": "BTC-USDT",
+        "action": "OPEN_LONG",
+        "price": 87762.26,
+        "amount": 0.001,
+        "tag": "策略訊號",
+        "realized_pnl": 0.0,
+        "balance": 1000.0
+    },
+    {
+        "timestamp": "2025-12-17 01:19:58",
+        "symbol": "ETH-USDT",
+        "action": "OPEN_LONG",
+        "price": 2949.66,
+        "amount": 0.001,
+        "tag": "策略訊號",
+        "realized_pnl": 0.0,
+        "balance": 1000.0
+    },
+    {
+        "timestamp": "2025-12-17 01:20:13",
+        "symbol": "SOL-USDT",
+        "action": "OPEN_LONG",
+        "price": 128.18,
+        "amount": 0.001,
+        "tag": "策略訊號",
+        "realized_pnl": 0.0,
+        "balance": 1000.0
+    },
+    {
+        "timestamp": "2025-12-17 01:20:34",
+        "symbol": "DOGE-USDT",
+        "action": "OPEN_LONG",
+        "price": 0.13194,
+        "amount": 0.001,
+        "tag": "策略訊號",
+        "realized_pnl": 0.0,
+        "balance": 1000.0
+    },
+    {
+        "timestamp": "2025-12-17 01:20:52",
+        "symbol": "BNB-USDT",
+        "action": "OPEN_LONG",
+        "price": 871.24,
+        "amount": 0.001,
+        "tag": "策略訊號",
+        "realized_pnl": 0.0,
+        "balance": 1000.0
     }
 ]

@@ -1,45 +1,64 @@
 import json
 import os
 from datetime import datetime
+import config
 
 class TradeLogger:
-    # 預設改為 logs/trade_history.json
     def __init__(self, filename="logs/trade_history.json"):
         self.filename = filename
         
-        # 🔥 新增：自動建立資料夾 (例如 logs/)
-        folder = os.path.dirname(self.filename)
-        if folder and not os.path.exists(folder):
-            os.makedirs(folder, exist_ok=True)
-            
-        self.history = self._load()
+        # 確保 log 目錄存在
+        log_dir = os.path.dirname(self.filename)
+        if log_dir and not os.path.exists(log_dir):
+            os.makedirs(log_dir, exist_ok=True)
 
-    def _load(self):
-        """讀取現有的 JSON 紀錄"""
-        if os.path.exists(self.filename):
-            try:
-                with open(self.filename, 'r', encoding='utf-8') as f:
-                    return json.load(f)
-            except Exception:
-                return []
-        return []
+    def log(self, action, price, amount, tag, pnl=0.0, balance=0.0, symbol=None):
+        """
+        記錄交易到 JSON 檔案
+        :param symbol: 交易幣種 (例如 'BTC-USDT') 🔥 新增這個參數
+        """
+        
+        # 如果呼叫時沒傳 symbol，嘗試用 config 裡的預設值 (兼容舊程式碼)
+        if symbol is None:
+            if hasattr(config, 'SYMBOL'):
+                symbol = config.SYMBOL
+            elif hasattr(config, 'COIN_LIST') and config.COIN_LIST:
+                symbol = config.COIN_LIST[0]
+            else:
+                symbol = "UNKNOWN"
 
-    def log(self, action, price, amount, tag, pnl=0.0, balance=0.0):
         record = {
             "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "symbol": symbol,  # 🔥 寫入幣種
             "action": action,
             "price": float(price),
             "amount": float(amount),
             "tag": tag,
-            "realized_pnl": float(f"{pnl:.4f}"),
-            "account_equity": float(f"{balance:.2f}")
+            "realized_pnl": float(pnl),
+            "balance": float(balance)
         }
-        
-        self.history.append(record)
-        self._save()
-        # print(f"📝 交易紀錄已保存至 {self.filename}") # 這行可以註解掉，保持畫面乾淨
 
-    def _save(self):
-        """寫入 JSON 檔案"""
-        with open(self.filename, 'w', encoding='utf-8') as f:
-            json.dump(self.history, f, indent=4, ensure_ascii=False)
+        # 讀取現有紀錄
+        history = []
+        if os.path.exists(self.filename):
+            try:
+                with open(self.filename, "r", encoding="utf-8") as f:
+                    history = json.load(f)
+            except Exception:
+                history = []
+
+        # 加入新紀錄
+        history.append(record)
+
+        # 寫回檔案
+        try:
+            with open(self.filename, "w", encoding="utf-8") as f:
+                json.dump(history, f, indent=4, ensure_ascii=False)
+            print(f"📝 [Log] {symbol} 交易紀錄已更新: {action} @ {price}")
+        except Exception as e:
+            print(f"❌ [Log] 寫入失敗: {e}")
+
+# 測試用
+if __name__ == "__main__":
+    logger = TradeLogger()
+    logger.log("TEST_ENTRY", 50000, 0.001, "測試寫入", symbol="BTC-USDT")
