@@ -27,7 +27,7 @@ class AIReportGenerator:
 
         return row, trend, bb_pos, upper.iloc[-1], lower.iloc[-1]
 
-    # 🔥 修正 1: 這裡必須接收 symbol 參數
+    # 🔥 1. 交易進場報告 (接收 symbol)
     def generate_entry_report(self, df, action, price, symbol):
         """交易進場報告 (Event-based)"""
         row, trend, bb_pos, up, low = self._prepare_data(df)
@@ -60,7 +60,7 @@ class AIReportGenerator:
         """
         return self._generate(prompt)
 
-    # 🔥 修正 2: 這裡必須接收 symbol 參數
+    # 🔥 2. 定期市場報告 (接收 symbol)
     def generate_market_report(self, df, symbol):
         """定期市場分析報告 (Time-based)"""
         row, trend, bb_pos, up, low = self._prepare_data(df)
@@ -101,6 +101,26 @@ class AIReportGenerator:
         """
         return self._generate(prompt)
 
+    # 🔥 3. 自訂問答系統 (一定要加這個，不然 qa_manager 會報錯)
+    def generate_free_qa(self, user_question):
+        """回答使用者的自訂問題"""
+        
+        prompt = f"""
+        你是一位專業的加密貨幣與金融交易顧問。使用者提出了一個問題，請提供專業、深入且易懂的回答。
+        
+        使用者問題:
+        {user_question}
+        
+        回答要求:
+        1. 使用 HTML 格式輸出。
+        2. 重點部分請加粗。
+        3. 如果涉及數據，請盡量提供背景知識。
+        4. 風格要專業但親切。
+        
+        只輸出 HTML 內容。
+        """
+        return self._generate(prompt)
+
     def _generate(self, prompt):
         try:
             response = self.model.generate_content(prompt)
@@ -110,7 +130,7 @@ class AIReportGenerator:
             raise e # 拋出錯誤讓外層知道，方便重試或記錄
 
 # ==========================================
-# 🔥 這裡就是你要的查詢功能
+# 🔥 模型查詢功能
 # ==========================================
 if __name__ == "__main__":
     print("\n🔍 正在連線 Google Gemini API 查詢可用模型...")
@@ -125,10 +145,7 @@ if __name__ == "__main__":
         count = 0
         for m in models:
             if 'generateContent' in m.supported_generation_methods:
-                # 簡單的清理名稱，把 'models/' 去掉方便閱讀
                 clean_name = m.name.replace("models/", "")
-                
-                # 如果是目前設定的模型，加上星號 ⭐
                 if clean_name == config.GEMINI_MODEL_NAME:
                     print(f"⭐ {m.name} (使用中)")
                 else:

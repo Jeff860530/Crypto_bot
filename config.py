@@ -66,3 +66,7 @@ EMAIL_RECEIVER = EmailReceiver
 # --- Google Gemini AI 設定 ---
 GEMINI_API_KEY = MyGeminiApiKey
 GEMINI_MODEL_NAME = MyGeminiAiName
+
+# --- 自訂 AI 問答設定 ---
+ENABLE_QA_SYSTEM = True        # 開啟問答系統
+QA_CHECK_INTERVAL = 5          # 每幾分鐘檢查一次有沒有新問題

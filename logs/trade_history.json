@@ -148,5 +148,445 @@
         "tag": "策略訊號",
         "realized_pnl": 0.0,
         "balance": 1000.0
+    },
+    {
+        "timestamp": "2025-12-17 01:27:59",
+        "symbol": "BTC-USDT",
+        "action": "OPEN_LONG",
+        "price": 87306.92,
+        "amount": 0.001,
+        "tag": "訊號",
+        "realized_pnl": 0.0,
+        "balance": 1000.0
+    },
+    {
+        "timestamp": "2025-12-17 01:28:18",
+        "symbol": "ETH-USDT",
+        "action": "OPEN_LONG",
+        "price": 2931.63,
+        "amount": 0.01,
+        "tag": "訊號",
+        "realized_pnl": 0.0,
+        "balance": 1000.0
+    },
+    {
+        "timestamp": "2025-12-17 01:41:54",
+        "symbol": "ETH-USDT",
+        "action": "CLOSE_LONG",
+        "price": 2930.0,
+        "amount": 0.01,
+        "tag": "反手",
+        "realized_pnl": -0.045608150000001096,
+        "balance": 999.95439185
+    },
+    {
+        "timestamp": "2025-12-17 01:41:54",
+        "symbol": "ETH-USDT",
+        "action": "OPEN_SHORT",
+        "price": 2930.0,
+        "amount": 0.01,
+        "tag": "訊號",
+        "realized_pnl": 0.0,
+        "balance": 999.95439185
+    },
+    {
+        "timestamp": "2025-12-17 03:42:17",
+        "symbol": "ETH-USDT",
+        "action": "CLOSE_SHORT",
+        "price": 2941.5,
+        "amount": 0.01,
+        "tag": "反手",
+        "realized_pnl": -0.1443575,
+        "balance": 999.81003435
+    },
+    {
+        "timestamp": "2025-12-17 03:42:17",
+        "symbol": "ETH-USDT",
+        "action": "OPEN_LONG",
+        "price": 2941.5,
+        "amount": 0.01,
+        "tag": "訊號",
+        "realized_pnl": 0.0,
+        "balance": 999.81003435
+    },
+    {
+        "timestamp": "2025-12-18 21:30:07",
+        "symbol": "BTC-USDT",
+        "action": "OPEN_LONG",
+        "price": 87974.48,
+        "amount": 0.001,
+        "tag": "訊號",
+        "realized_pnl": 0.0,
+        "balance": 999.81003435
+    },
+    {
+        "timestamp": "2025-12-18 21:30:23",
+        "symbol": "ETH-USDT",
+        "action": "OPEN_LONG",
+        "price": 2909.96,
+        "amount": 0.01,
+        "tag": "訊號",
+        "realized_pnl": 0.0,
+        "balance": 999.81003435
+    },
+    {
+        "timestamp": "2025-12-18 22:05:55",
+        "symbol": "BTC-USDT",
+        "action": "OPEN_LONG",
+        "price": 89200.01,
+        "amount": 0.001,
+        "tag": "訊號",
+        "realized_pnl": 0.0,
+        "balance": 999.81003435
+    },
+    {
+        "timestamp": "2025-12-18 22:06:10",
+        "symbol": "ETH-USDT",
+        "action": "OPEN_LONG",
+        "price": 2981.67,
+        "amount": 0.01,
+        "tag": "訊號",
+        "realized_pnl": 0.0,
+        "balance": 999.81003435
+    },
+    {
+        "timestamp": "2025-12-18 22:14:40",
+        "symbol": "BTC-USDT",
+        "action": "OPEN_LONG",
+        "price": 88225.84,
+        "amount": 0.001,
+        "tag": "訊號",
+        "realized_pnl": 0.0,
+        "balance": 999.81003435
+    },
+    {
+        "timestamp": "2025-12-18 22:14:58",
+        "symbol": "ETH-USDT",
+        "action": "OPEN_LONG",
+        "price": 2935.0,
+        "amount": 0.01,
+        "tag": "訊號",
+        "realized_pnl": 0.0,
+        "balance": 999.81003435
+    },
+    {
+        "timestamp": "2025-12-18 22:42:10",
+        "symbol": "BTC-USDT",
+        "action": "OPEN_LONG",
+        "price": 88140.0,
+        "amount": 0.001,
+        "tag": "訊號",
+        "realized_pnl": 0.0,
+        "balance": 999.81003435
+    },
+    {
+        "timestamp": "2025-12-18 22:42:11",
+        "symbol": "ETH-USDT",
+        "action": "OPEN_LONG",
+        "price": 2950.83,
+        "amount": 0.01,
+        "tag": "訊號",
+        "realized_pnl": 0.0,
+        "balance": 999.81003435
+    },
+    {
+        "timestamp": "2025-12-18 22:45:40",
+        "symbol": "BTC-USDT",
+        "action": "OPEN_LONG",
+        "price": 87922.73,
+        "amount": 0.001,
+        "tag": "訊號",
+        "realized_pnl": 0.0,
+        "balance": 999.81003435
+    },
+    {
+        "timestamp": "2025-12-18 22:45:44",
+        "symbol": "ETH-USDT",
+        "action": "OPEN_LONG",
+        "price": 2937.85,
+        "amount": 0.01,
+        "tag": "訊號",
+        "realized_pnl": 0.0,
+        "balance": 999.81003435
+    },
+    {
+        "timestamp": "2025-12-19 01:16:46",
+        "symbol": "ETH-USDT",
+        "action": "CLOSE_LONG (SL)",
+        "price": 2839.1,
+        "amount": 0.01,
+        "tag": "止損",
+        "realized_pnl": -1.01638475,
+        "balance": 998.7936496
+    },
+    {
+        "timestamp": "2025-12-19 01:31:48",
+        "symbol": "ETH-USDT",
+        "action": "OPEN_SHORT",
+        "price": 2818.61,
+        "amount": 0.01,
+        "tag": "訊號",
+        "realized_pnl": 0.0,
+        "balance": 998.7936496
+    },
+    {
+        "timestamp": "2025-12-19 02:01:50",
+        "symbol": "BTC-USDT",
+        "action": "CLOSE_LONG",
+        "price": 86437.68,
+        "amount": 0.001,
+        "tag": "反手",
+        "realized_pnl": -1.5722302050000028,
+        "balance": 997.221419395
+    },
+    {
+        "timestamp": "2025-12-19 02:01:50",
+        "symbol": "BTC-USDT",
+        "action": "OPEN_SHORT",
+        "price": 86437.68,
+        "amount": 0.001,
+        "tag": "訊號",
+        "realized_pnl": 0.0,
+        "balance": 997.221419395
+    },
+    {
+        "timestamp": "2025-12-19 07:02:33",
+        "symbol": "ETH-USDT",
+        "action": "CLOSE_SHORT",
+        "price": 2830.23,
+        "amount": 0.01,
+        "tag": "反手",
+        "realized_pnl": -0.1444441999999989,
+        "balance": 997.076975195
+    },
+    {
+        "timestamp": "2025-12-19 07:02:33",
+        "symbol": "ETH-USDT",
+        "action": "OPEN_LONG",
+        "price": 2830.23,
+        "amount": 0.01,
+        "tag": "訊號",
+        "realized_pnl": 0.0,
+        "balance": 997.076975195
+    },
+    {
+        "timestamp": "2025-12-19 08:02:42",
+        "symbol": "BTC-USDT",
+        "action": "CLOSE_SHORT",
+        "price": 85522.77,
+        "amount": 0.001,
+        "tag": "反手",
+        "realized_pnl": 0.828929774999989,
+        "balance": 997.9059049699999
+    },
+    {
+        "timestamp": "2025-12-19 08:02:42",
+        "symbol": "BTC-USDT",
+        "action": "OPEN_LONG",
+        "price": 85522.77,
+        "amount": 0.001,
+        "tag": "訊號",
+        "realized_pnl": 0.0,
+        "balance": 997.9059049699999
+    },
+    {
+        "timestamp": "2025-12-19 10:02:59",
+        "symbol": "BTC-USDT",
+        "action": "CLOSE_LONG",
+        "price": 85250.61,
+        "amount": 0.001,
+        "tag": "反手",
+        "realized_pnl": -0.3575466900000035,
+        "balance": 997.54835828
+    },
+    {
+        "timestamp": "2025-12-19 10:02:59",
+        "symbol": "BTC-USDT",
+        "action": "OPEN_SHORT",
+        "price": 85250.61,
+        "amount": 0.001,
+        "tag": "訊號",
+        "realized_pnl": 0.0,
+        "balance": 997.54835828
+    },
+    {
+        "timestamp": "2025-12-19 18:38:41",
+        "symbol": "BTC-USDT",
+        "action": "OPEN_LONG",
+        "price": 88002.0,
+        "amount": 0.001,
+        "tag": "訊號",
+        "realized_pnl": 0.0,
+        "balance": 997.54835828
+    },
+    {
+        "timestamp": "2025-12-19 18:38:45",
+        "symbol": "ETH-USDT",
+        "action": "OPEN_LONG",
+        "price": 2950.47,
+        "amount": 0.01,
+        "tag": "訊號",
+        "realized_pnl": 0.0,
+        "balance": 997.54835828
+    },
+    {
+        "timestamp": "2025-12-19 21:54:52",
+        "symbol": "BTC-USDT",
+        "action": "CLOSE_LONG",
+        "price": 88001.67,
+        "amount": 0.001,
+        "tag": "反手",
+        "realized_pnl": -0.08833183500000175,
+        "balance": 997.4600264449999
+    },
+    {
+        "timestamp": "2025-12-19 21:54:52",
+        "symbol": "BTC-USDT",
+        "action": "OPEN_SHORT",
+        "price": 88001.67,
+        "amount": 0.001,
+        "tag": "訊號",
+        "realized_pnl": 0.0,
+        "balance": 997.4600264449999
+    },
+    {
+        "timestamp": "2025-12-19 22:55:00",
+        "symbol": "BTC-USDT",
+        "action": "CLOSE_SHORT",
+        "price": 87972.0,
+        "amount": 0.001,
+        "tag": "反手",
+        "realized_pnl": -0.058316835000001746,
+        "balance": 997.40170961
+    },
+    {
+        "timestamp": "2025-12-19 22:55:00",
+        "symbol": "BTC-USDT",
+        "action": "OPEN_LONG",
+        "price": 87972.0,
+        "amount": 0.001,
+        "tag": "訊號",
+        "realized_pnl": 0.0,
+        "balance": 997.40170961
+    },
+    {
+        "timestamp": "2025-12-20 01:55:27",
+        "symbol": "BTC-USDT",
+        "action": "CLOSE_LONG",
+        "price": 87256.17,
+        "amount": 0.001,
+        "tag": "反手",
+        "realized_pnl": -0.8034440850000018,
+        "balance": 996.598265525
+    },
+    {
+        "timestamp": "2025-12-20 01:55:28",
+        "symbol": "BTC-USDT",
+        "action": "OPEN_SHORT",
+        "price": 87256.17,
+        "amount": 0.001,
+        "tag": "訊號",
+        "realized_pnl": 0.0,
+        "balance": 996.598265525
+    },
+    {
+        "timestamp": "2025-12-20 02:10:31",
+        "symbol": "ETH-USDT",
+        "action": "CLOSE_LONG",
+        "price": 2948.99,
+        "amount": 0.01,
+        "tag": "反手",
+        "realized_pnl": -0.04429730000000018,
+        "balance": 996.553968225
+    },
+    {
+        "timestamp": "2025-12-20 02:10:31",
+        "symbol": "ETH-USDT",
+        "action": "OPEN_SHORT",
+        "price": 2948.99,
+        "amount": 0.01,
+        "tag": "訊號",
+        "realized_pnl": 0.0,
+        "balance": 996.553968225
+    },
+    {
+        "timestamp": "2025-12-20 03:55:46",
+        "symbol": "ETH-USDT",
+        "action": "CLOSE_SHORT",
+        "price": 2987.73,
+        "amount": 0.01,
+        "tag": "反手",
+        "realized_pnl": -0.41708360000000233,
+        "balance": 996.136884625
+    },
+    {
+        "timestamp": "2025-12-20 03:55:46",
+        "symbol": "ETH-USDT",
+        "action": "OPEN_LONG",
+        "price": 2987.73,
+        "amount": 0.01,
+        "tag": "訊號",
+        "realized_pnl": 0.0,
+        "balance": 996.136884625
+    },
+    {
+        "timestamp": "2025-12-20 04:55:51",
+        "symbol": "BTC-USDT",
+        "action": "CLOSE_SHORT",
+        "price": 88028.82,
+        "amount": 0.001,
+        "tag": "反手",
+        "realized_pnl": -0.8602924950000087,
+        "balance": 995.2765921299999
+    },
+    {
+        "timestamp": "2025-12-20 04:55:51",
+        "symbol": "BTC-USDT",
+        "action": "OPEN_LONG",
+        "price": 88028.82,
+        "amount": 0.001,
+        "tag": "訊號",
+        "realized_pnl": 0.0,
+        "balance": 995.2765921299999
+    },
+    {
+        "timestamp": "2025-12-20 08:26:25",
+        "symbol": "ETH-USDT",
+        "action": "CLOSE_LONG",
+        "price": 2976.15,
+        "amount": 0.01,
+        "tag": "反手",
+        "realized_pnl": -0.1456193999999993,
+        "balance": 995.1309727299999
+    },
+    {
+        "timestamp": "2025-12-20 08:26:25",
+        "symbol": "ETH-USDT",
+        "action": "OPEN_SHORT",
+        "price": 2976.15,
+        "amount": 0.01,
+        "tag": "訊號",
+        "realized_pnl": 0.0,
+        "balance": 995.1309727299999
+    },
+    {
+        "timestamp": "2025-12-20 11:26:53",
+        "symbol": "ETH-USDT",
+        "action": "CLOSE_SHORT",
+        "price": 2989.09,
+        "amount": 0.01,
+        "tag": "反手",
+        "realized_pnl": -0.15922620000000054,
+        "balance": 994.97174653
+    },
+    {
+        "timestamp": "2025-12-20 11:26:53",
+        "symbol": "ETH-USDT",
+        "action": "OPEN_LONG",
+        "price": 2989.09,
+        "amount": 0.01,
+        "tag": "訊號",
+        "realized_pnl": 0.0,
+        "balance": 994.97174653
     }
 ]
