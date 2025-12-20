@@ -1,0 +1,1105 @@
+=== PROJECT STRUCTURE ===
+crypto_bot/
+    .gitignore
+    config.py
+    main.py
+    questions.json
+    Readme.txt
+    requirements.txt
+    scripts/
+        export_context.py
+    services/
+        email_service.py
+        market_data_service.py
+        qa_service.py
+        report_service.py
+        trading_service.py
+    utils/
+        data_loader.py
+        executor.py
+        trade_logger.py
+
+==================================================
+
+=== FILE CONTENTS ===
+
+--- START OF FILE: config.py ---
+# config.py
+from gitIgnoreFile.MyKey import myApiKey, mySecretKey
+from gitIgnoreFile.MyMail import EmailSender, EmailPassword, EmailReceiver
+from gitIgnoreFile.MyGeminiKey import MyGeminiApiKey, MyGeminiAiName
+
+# --- BingX API 設定 ---
+API_KEY = myApiKey
+SECRET_KEY = mySecretKey
+
+# --- 交易標的與資金管理 ---
+COIN_LIST = [
+    "BTC-USDT",
+    "ETH-USDT"
+]
+
+DRY_RUN = True  # True: 模擬交易 | False: 真實下單
+LEVERAGE = 5
+TRADING_FEE_RATE = 0.0005
+
+# 預設下單數量 (當找不到 ORDER_SIZES 時使用)
+ORDER_AMOUNT = 0.001 
+
+# 個別幣種下單量 (建議約 10~100 USDT)
+ORDER_SIZES = {
+    "BTC-USDT": 0.001,   # 約 90 U
+    "ETH-USDT": 0.01,    # 約 25 U
+    "SOL-USDT": 0.5,     # 約 50 U
+    "DOGE-USDT": 100,    # 約 30 U
+    "BNB-USDT": 0.1      # 約 60 U
+}
+
+# --- 策略與指標參數 ---
+TRADE_TIMEFRAME = '15m'  # 交易用 K 線
+SMA_SHORT = 7
+SMA_LONG = 25
+
+# 風控 (0.02 = 2%)
+STOP_LOSS_PCT = 0.02      
+TAKE_PROFIT_PCT = 0.04    
+
+# --- 系統服務設定 ---
+# 1. Email (SMTP)
+ENABLE_EMAIL = True
+SMTP_SERVER = "smtp.gmail.com"
+SMTP_PORT = 587
+SMTP_USERNAME = EmailSender
+SMTP_PASSWORD = EmailPassword
+SMTP_TO_EMAIL = EmailReceiver
+
+# 2. Gemini AI
+GEMINI_API_KEY = MyGeminiApiKey
+GEMINI_MODEL_NAME = MyGeminiAiName
+
+# 3. 報告與 QA
+ENABLE_QA_SYSTEM = True
+ENABLE_PERIODIC_REPORT = True
+REPORT_INTERVAL_MINUTES = 60
+QA_CHECK_INTERVAL = 5
+--- END OF FILE: config.py ---
+
+--- START OF FILE: main.py ---
+import time
+from datetime import datetime, timedelta
+import config
+
+# 引入服務模組
+from services.trading_service import TradingService
+from services.report_service import ReportService
+from services.qa_service import QAService
+from services.email_service import EmailService
+from services.market_data_service import MarketDataService
+
+def main():
+    print(f"🤖 Crypto Bot 架構重構版啟動...")
+
+    # 1. 初始化服務 (指揮官組裝工具)
+    mailer = EmailService()           
+    reporter = ReportService()        
+    market_data = MarketDataService() 
+    qa_service = QAService("questions.json")
+    
+    # 將 reporter 和 mailer 注入給 trader (如果未來需要)
+    trader = TradingService(report_service=reporter, email_service=mailer) 
+
+    # 2. 設定時間鎖
+    timers = {
+        'trade': datetime.now(),         # 馬上執行一次
+        'report': datetime.now(),        # 馬上執行一次
+        'qa': datetime.now()             # 馬上執行一次
+    }
+
+    print("🚀 系統進入極速監聽模式...")
+
+    while True:
+        try:
+            now = datetime.now()
+
+            # --- 任務 1: QA 問答 (優先級最高，每 5 秒) ---
+            if config.ENABLE_QA_SYSTEM and now >= timers['qa']:
+                # 將 reporter 和 mailer "注入" 給 qa_service
+                qa_service.process_pending_questions(ai_reporter=reporter, mailer=mailer)
+                timers['qa'] = now + timedelta(seconds=5)
+
+            # --- 任務 2: 交易 (每 15 分鐘) ---
+            if now >= timers['trade']:
+                print(f"💰 執行交易策略檢查... {now.strftime('%H:%M')}")
+                trader.run_cycle() 
+                timers['trade'] = now + timedelta(minutes=15)
+
+            # --- 任務 3: 定期報告 (每 60 分鐘) ---
+            if config.ENABLE_PERIODIC_REPORT and now >= timers['report']:
+                print(f"📊 執行定期市場報告... {now.strftime('%H:%M')}")
+                
+                # 範例邏輯 (你可以之後再解除註解並修改)
+                # target_symbol = "ETHUSDT"
+                # df = get_klines(target_symbol) # 需自行實作獲取資料
+                # if not df.empty:
+                #     context = market_data.analyze_technicals(df)
+                #     context['symbol'] = target_symbol
+                #     html = reporter.generate_market_report(context)
+                #     mailer.send_report(f"📅 市場週報: {target_symbol}", html)
+                
+                timers['report'] = now + timedelta(minutes=config.REPORT_INTERVAL_MINUTES)
+
+            # 極速迴圈休息
+            time.sleep(3)
+
+        # 🔥 重點在這裡：try 區塊結束後，一定要接 except
+        except KeyboardInterrupt:
+            print("\n🛑 程式手動停止")
+            break
+        except Exception as e:
+            print(f"❌ 主迴圈發生錯誤: {e}")
+            time.sleep(10)
+
+if __name__ == "__main__":
+    main()
+--- END OF FILE: main.py ---
+
+--- START OF FILE: questions.json ---
+[
+    {
+        "id": "question001",
+        "question": "請幫我說明什麼是 RSI KDJ WR MACD",
+        "answered": true,
+        "answered_at": "2025-12-18 22:31:22"
+    },
+    {
+        "id": "question002",
+        "question": "請幫我說明如何觀察RSI KDJ WR MACD 可以知道假突破 還是多頭回採",
+        "answered": true,
+        "answered_at": "2025-12-18 22:33:54"
+    },
+    {
+        "id": "question003",
+        "question": "請幫我分析72小時的ETH 15分K ",
+        "answered": true,
+        "answered_at": "2025-12-18 22:46:24"
+    },
+    {
+        "id": "question004",
+        "question": "請幫我分析72小時的BTC 15分K",
+        "answered": true,
+        "answered_at": "2025-12-18 22:18:35"
+    },
+    {
+        "id": "question005",
+        "question": "我目前是幼教老師需要你幫我規劃轉成UIUX 工程師",
+        "answered": true,
+        "answered_at": "2025-12-18 22:24:08"
+    }
+]
+--- END OF FILE: questions.json ---
+
+--- START OF FILE: Readme.txt ---
+=== PROJECT STRUCTURE ===
+crypto_bot/
+    .gitignore                  => 設定 Git 版本控制應忽略的檔案與資料夾 (如敏感金鑰、虛擬環境)
+    config.py                   => 集中管理 API 金鑰、策略參數、風險控制與系統設定
+    main.py                     => 程式入口點，負責組裝服務、啟動迴圈與排程管理
+    questions.json              => 儲存使用者提問內容與回答狀態的資料檔
+    Readme.txt                  => 專案架構說明與開發文件
+    requirements.txt            => 列出專案執行所需的 Python 套件清單
+
+    scripts/
+        export_context.py       => 開發輔助工具，將專案程式碼匯出為單一文字檔以便 AI Review
+
+    services/
+        email_service.py        => 封裝 SMTP 協定，負責發送 HTML 格式的郵件通知
+        market_data_service.py  => 負責計算技術指標 (RSI, MA) 並生成市場分析摘要
+        qa_service.py           => 管理問答流程，協調 AI 回答問題並更新處理狀態
+        report_service.py       => 負責 Prompt Engineering，呼叫 AI 生成 HTML 分析報告
+        trading_service.py      => 核心交易大腦，整合數據分析、策略判斷與觸發下單
+
+    utils/
+        data_loader.py          => 透過 CCXT 套件從交易所獲取 K 線數據 (OHLCV)
+        executor.py             => 負責執行真實下單、模擬交易與倉位管理
+        trade_logger.py         => 將所有交易動作與損益結果記錄至 JSON 檔案
+
+==================================================
+--- END OF FILE: Readme.txt ---
+
+--- START OF FILE: requirements.txt ---
+ccxt
+pandas
+pandas_ta
+--- END OF FILE: requirements.txt ---
+
+--- START OF FILE: scripts\export_context.py ---
+import os
+import fnmatch
+
+# 🔥 1. 路徑設定
+# CURRENT_DIR:  .../crypto_bot/scripts (腳本所在位置)
+# PROJECT_ROOT: .../crypto_bot (專案根目錄)
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.dirname(CURRENT_DIR)
+
+# 預設忽略清單
+# 注意：我們依然忽略 scripts 資料夾的掃描，避免把腳本自己也寫進去 context
+DEFAULT_IGNORE_DIRS = {
+    '.git', '.venv', 'venv', '__pycache__', 
+    '.idea', '.vscode', 'node_modules', 'logs'
+}
+
+DEFAULT_IGNORE_FILES = {
+    'project_context.txt', '.DS_Store', 'poetry.lock', 'package-lock.json', '*.pyc'
+}
+
+ALLOWED_EXTENSIONS = {
+    '.py', '.json', '.md', '.txt', '.yml', '.yaml', 
+    '.html', '.css', '.js', '.ini'
+}
+
+def load_gitignore_patterns(root_dir):
+    """讀取 .gitignore"""
+    gitignore_path = os.path.join(root_dir, '.gitignore')
+    patterns = set()
+    
+    if os.path.exists(gitignore_path):
+        try:
+            with open(gitignore_path, 'r', encoding='utf-8') as f:
+                for line in f:
+                    line = line.strip()
+                    if line and not line.startswith('#'):
+                        patterns.add(line.rstrip('/'))
+        except Exception as e:
+            print(f"⚠️ 無法讀取 .gitignore: {e}")
+            
+    return patterns
+
+def is_ignored(path, root_dir, ignore_dirs, ignore_files, gitignore_patterns):
+    """檢查是否忽略"""
+    name = os.path.basename(path)
+    
+    if name in ignore_dirs or name in ignore_files:
+        return True
+    
+    rel_path = os.path.relpath(path, root_dir)
+    rel_path_unix = rel_path.replace(os.sep, '/')
+    
+    for pattern in gitignore_patterns:
+        if fnmatch.fnmatch(name, pattern):
+            return True
+        if fnmatch.fnmatch(rel_path_unix, pattern):
+            return True
+        if pattern in rel_path_unix.split('/'):
+             return True
+
+    return False
+
+def generate_project_context(output_filename="project_context.txt"):
+    # 🔥 修改這裡：將輸出路徑改為 CURRENT_DIR (scripts 資料夾)
+    output_file = os.path.join(CURRENT_DIR, output_filename)
+    
+    gitignore_patterns = load_gitignore_patterns(PROJECT_ROOT)
+    
+    print(f"📂 掃描目標: {PROJECT_ROOT}")
+    print(f"📄 輸出位置: {output_file}")
+
+    with open(output_file, 'w', encoding='utf-8') as outfile:
+        # 1. 目錄結構
+        outfile.write("=== PROJECT STRUCTURE ===\n")
+        for dirpath, dirnames, filenames in os.walk(PROJECT_ROOT):
+            dirnames[:] = [d for d in dirnames if not is_ignored(os.path.join(dirpath, d), PROJECT_ROOT, DEFAULT_IGNORE_DIRS, DEFAULT_IGNORE_FILES, gitignore_patterns)]
+            
+            level = dirpath.replace(PROJECT_ROOT, '').count(os.sep)
+            indent = ' ' * 4 * level
+            outfile.write(f"{indent}{os.path.basename(dirpath)}/\n")
+            
+            subindent = ' ' * 4 * (level + 1)
+            for f in filenames:
+                if not is_ignored(os.path.join(dirpath, f), PROJECT_ROOT, DEFAULT_IGNORE_DIRS, DEFAULT_IGNORE_FILES, gitignore_patterns):
+                    outfile.write(f"{subindent}{f}\n")
+        
+        outfile.write("\n" + "="*50 + "\n\n")
+
+        # 2. 檔案內容
+        outfile.write("=== FILE CONTENTS ===\n")
+        file_count = 0
+        for dirpath, dirnames, filenames in os.walk(PROJECT_ROOT):
+            dirnames[:] = [d for d in dirnames if not is_ignored(os.path.join(dirpath, d), PROJECT_ROOT, DEFAULT_IGNORE_DIRS, DEFAULT_IGNORE_FILES, gitignore_patterns)]
+            
+            for filename in filenames:
+                filepath = os.path.join(dirpath, filename)
+                
+                if is_ignored(filepath, PROJECT_ROOT, DEFAULT_IGNORE_DIRS, DEFAULT_IGNORE_FILES, gitignore_patterns):
+                    continue
+                
+                ext = os.path.splitext(filename)[1]
+                if ext not in ALLOWED_EXTENSIONS and filename != 'requirements.txt':
+                    continue
+
+                rel_path = os.path.relpath(filepath, PROJECT_ROOT)
+                
+                try:
+                    with open(filepath, 'r', encoding='utf-8') as infile:
+                        content = infile.read()
+                        
+                    outfile.write(f"\n--- START OF FILE: {rel_path} ---\n")
+                    outfile.write(content)
+                    outfile.write(f"\n--- END OF FILE: {rel_path} ---\n")
+                    file_count += 1
+                except Exception as e:
+                    print(f"⚠️ 無法讀取檔案 {rel_path}: {e}")
+
+    print(f"✅ 匯出完成！檔案位於 scripts 資料夾內。")
+
+if __name__ == "__main__":
+    generate_project_context()
+--- END OF FILE: scripts\export_context.py ---
+
+--- START OF FILE: services\email_service.py ---
+#services/email_service.py
+import sys
+import os
+
+# 取得目前檔案所在的資料夾 (services)
+current_dir = os.path.dirname(os.path.abspath(__file__))
+# 取得上一層資料夾 (crypto_bot 根目錄)
+parent_dir = os.path.dirname(current_dir)
+# 將根目錄加入 Python 搜尋路徑
+sys.path.append(parent_dir)
+
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.header import Header
+import config
+
+class EmailService:
+    def __init__(self):
+        self.smtp_server = config.SMTP_SERVER
+        self.smtp_port = config.SMTP_PORT
+        self.username = config.SMTP_USERNAME
+        self.password = config.SMTP_PASSWORD
+        self.to_addr = config.SMTP_TO_EMAIL  # 預設收件人
+
+    def send_report(self, subject: str, html_content: str, to_email: str = None) -> bool:
+        """
+        發送 HTML 格式的郵件
+        :param subject: 郵件標題
+        :param html_content: HTML 內容
+        :param to_email: 收件人 (若未指定則使用 config 預設值)
+        :return: 是否發送成功
+        """
+        # 如果 config 沒設定開啟郵件，直接跳過 (方便測試)
+        if not getattr(config, 'ENABLE_EMAIL', True):
+            print(f"🔕 Email 功能已關閉，跳過發送: {subject}")
+            return True
+
+        target_email = to_email if to_email else self.to_addr
+
+        # 建立郵件物件
+        msg = MIMEMultipart()
+        msg['From'] = self.username
+        msg['To'] = target_email
+        msg['Subject'] = Header(subject, 'utf-8')
+
+        # 加入 HTML 內文
+        msg.attach(MIMEText(html_content, 'html', 'utf-8'))
+
+        try:
+            # 建立 SMTP 連線
+            # 如果是 Gmail 或是使用 SSL (Port 465)
+            if self.smtp_port == 465:
+                server = smtplib.SMTP_SSL(self.smtp_server, self.smtp_port)
+            else:
+                # 如果是 TLS (Port 587)
+                server = smtplib.SMTP(self.smtp_server, self.smtp_port)
+                server.starttls()
+
+            server.login(self.username, self.password)
+            server.send_message(msg)
+            server.quit()
+            
+            print(f"📨 Email 發送成功: {subject} -> {target_email}")
+            return True
+
+        except Exception as e:
+            print(f"❌ Email 發送失敗: {e}")
+            return False
+
+# 用法測試
+if __name__ == "__main__":
+    email_service = EmailService()
+    email_service.send_report("測試郵件", "<h1>這是測試</h1><p>系統運作正常。</p>")
+--- END OF FILE: services\email_service.py ---
+
+--- START OF FILE: services\market_data_service.py ---
+#services/market_data_service.py
+import pandas as pd
+import pandas_ta as ta
+from datetime import datetime
+from typing import Dict, Any
+
+class MarketDataService:
+    def __init__(self):
+        # 這裡可以放一些全域的指標設定參數
+        self.rsi_length = 14
+        self.ma_fast = 7
+        self.ma_slow = 25
+        self.bb_length = 20
+
+    def analyze_technicals(self, df: pd.DataFrame) -> Dict[str, Any]:
+        """
+        計算技術指標並返回結構化數據與文字描述
+        :param df: 包含 Open, High, Low, Close 的 DataFrame
+        :return: 包含數值與文字摘要的字典
+        """
+        if df is None or df.empty:
+            print("⚠️ 警告: 傳入的 DataFrame 為空")
+            return {}
+
+        # 複製一份以免修改到原始資料
+        df = df.copy()
+
+        # 1. 計算指標 (使用 pandas_ta)
+        # RSI
+        df['rsi'] = ta.rsi(df['close'], length=self.rsi_length)
+        
+        # MA (移動平均)
+        df['ma_fast'] = ta.sma(df['close'], length=self.ma_fast)
+        df['ma_slow'] = ta.sma(df['close'], length=self.ma_slow)
+        
+        # Bollinger Bands (布林通道)
+        bbands = ta.bbands(df['close'], length=self.bb_length)
+        # pandas_ta 的 bbands 欄位名稱通常是 BBL_20_2.0, BBM_20_2.0, BBU_20_2.0
+        # 為了方便，我們重新命名或直接取值
+        df['bb_upper'] = bbands.iloc[:, 2] # 上軌
+        df['bb_lower'] = bbands.iloc[:, 0] # 下軌
+
+        # 2. 取得最新一筆數據 (Latest Row)
+        row = df.iloc[-1]
+
+        # 3. 邏輯判斷 (Rule-based Logic)
+        
+        # 趨勢判斷
+        if row['ma_fast'] > row['ma_slow']:
+            trend = "多頭排列 (Bullish)"
+            trend_signal = "LONG"
+        else:
+            trend = "空頭排列 (Bearish)"
+            trend_signal = "SHORT"
+
+        # 布林位置判斷
+        bb_pos = "中軸震盪"
+        if row['close'] >= row['bb_upper']:
+            bb_pos = "觸及上軌 (壓力區/超買)"
+        elif row['close'] <= row['bb_lower']:
+            bb_pos = "觸及下軌 (支撐區/超賣)"
+
+        # 4. 生成給 AI 看的摘要文字 (Prompt Material)
+        # 這裡的格式越清楚，AI 寫出來的報告越精準
+        ta_text = f"""
+        【最新價格數據】
+        - 現價: {row['close']:.2f}
+        
+        【趨勢指標】
+        - MA狀態: {trend}
+        - 短期MA({self.ma_fast}): {row['ma_fast']:.2f}
+        - 長期MA({self.ma_slow}): {row['ma_slow']:.2f}
+        
+        【動能與波動】
+        - RSI({self.rsi_length}): {row['rsi']:.2f}
+        - 布林帶狀態: {bb_pos}
+          (上軌: {row['bb_upper']:.2f} / 下軌: {row['bb_lower']:.2f})
+        """
+
+        # 5. 返回完整字典
+        return {
+            "close": row['close'],
+            "rsi": row['rsi'],
+            "ma_fast": row['ma_fast'],
+            "ma_slow": row['ma_slow'],
+            "bb_upper": row['bb_upper'],
+            "bb_lower": row['bb_lower'],
+            "trend": trend,
+            "trend_signal": trend_signal, # 方便程式邏輯做 if/else
+            "bb_pos": bb_pos,
+            "technical_analysis_text": ta_text, # 這是專門餵給 AI 的
+            "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        }
+
+# 用法測試
+if __name__ == "__main__":
+    # 造一個假的 DataFrame 測試
+    data = {
+        'close': [3000, 3010, 3020, 3050, 3040, 3060, 3080, 3100, 3120, 3110, 3150, 3200, 3180, 3190, 3210, 3250, 3300, 3280, 3290, 3310, 3350, 3400, 3380, 3360, 3390, 3410]
+    }
+    df_test = pd.DataFrame(data)
+    
+    service = MarketDataService()
+    result = service.analyze_technicals(df_test)
+    
+    print("--- AI 會看到的文字 ---")
+    print(result['technical_analysis_text'])
+--- END OF FILE: services\market_data_service.py ---
+
+--- START OF FILE: services\qa_service.py ---
+import json
+import os
+import config
+from datetime import datetime
+from typing import List, Dict, Any
+
+class QAService:
+    def __init__(self, filename: str = "questions.json"):
+        self.filename = filename
+
+    def _load_questions(self) -> List[Dict[str, Any]]:
+        """讀取問題列表 (內部方法)"""
+        if not os.path.exists(self.filename):
+            # 如果檔案不存在，建立一個範本
+            default_data = [{"id": "question000", "question": "範例問題", "answered": True}]
+            self._save_questions(default_data)
+            return default_data
+        
+        try:
+            with open(self.filename, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except Exception as e:
+            print(f"⚠️ 讀取問題檔失敗: {e}")
+            return []
+
+    def _save_questions(self, data: List[Dict[str, Any]]) -> None:
+        """儲存問題列表 (內部方法)"""
+        with open(self.filename, 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, indent=4)
+
+    def _format_email_content(self, q_id: str, question: str, answer_html: str) -> str:
+        """生成 Email 的 HTML 內容"""
+        return f"""
+        <div style="background-color: #f8f9fa; padding: 15px; border-left: 5px solid #0d6efd; margin-bottom: 20px;">
+            <h3 style="margin: 0 0 10px 0; color: #0d6efd;">📌 提問編號: {q_id}</h3>
+            <p style="font-size: 16px; font-weight: bold; margin: 0; line-height: 1.5;">
+                {question}
+            </p>
+        </div>
+        
+        <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+        
+        <div style="font-family: Arial, sans-serif; line-height: 1.6;">
+            {answer_html}
+        </div>
+        """
+
+    def mark_as_answered(self, question_id: str) -> None:
+        """將問題標記為已回答"""
+        questions = self._load_questions()
+        updated = False
+        
+        for q in questions:
+            if q.get('id') == question_id:
+                q['answered'] = True
+                q['answered_at'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                updated = True
+                break
+        
+        if updated:
+            self._save_questions(questions)
+
+    def process_pending_questions(self, ai_reporter, mailer) -> None:
+        """
+        核心業務邏輯：檢查並處理所有未回答的問題
+        :param ai_reporter: 負責生成回答的物件
+        :param mailer: 負責發送郵件的物件
+        """
+        if not getattr(config, 'ENABLE_QA_SYSTEM', False):
+            return
+
+        questions = self._load_questions()
+        pending_count = 0
+
+        # 篩選出未回答的問題
+        pending_questions = [q for q in questions if not q.get('answered', False)]
+
+        if not pending_questions:
+            return
+
+        for q in pending_questions:
+            q_id = q.get('id', 'unknown')
+            q_text = q.get('question', '')
+            
+            print(f"\n💡 發現新問題 ({q_id}): {q_text}")
+            print("🤖 AI 正在思考答案...")
+
+            try:
+                # 1. AI 生成答案
+                # 假設 ai_reporter 有 generate_free_qa 方法
+                answer_html = ai_reporter.generate_free_qa(q_text)
+                
+                # 2. 組合 Email 內容
+                email_subject = f"🧠 AI 問答回覆: {q_id}"
+                email_body = self._format_email_content(q_id, q_text, answer_html)
+
+                # 3. 發送郵件
+                mailer.send_report(email_subject, email_body)
+                print(f"📨 回覆已寄出: {q_id}")
+
+                # 4. 標記為已回答 (更新狀態)
+                # 這裡直接呼叫 mark_as_answered 會重新讀寫一次檔案，雖然 IO 多一點但比較安全
+                self.mark_as_answered(q_id)
+                pending_count += 1
+
+            except Exception as e:
+                print(f"❌ 處理問題 {q_id} 時發生錯誤: {e}")
+                # 可以在這裡加入錯誤 logging 或通知管理員
+
+        if pending_count > 0:
+            print(f"✅ 本次共處理了 {pending_count} 個問題")
+--- END OF FILE: services\qa_service.py ---
+
+--- START OF FILE: services\report_service.py ---
+import google.generativeai as genai
+import config
+from typing import Dict, Any
+
+class ReportService:
+    def __init__(self):
+        # 設定 Gemini API
+        genai.configure(api_key=config.GEMINI_API_KEY)
+        self.model = genai.GenerativeModel(config.GEMINI_MODEL_NAME)
+
+    def _generate_html(self, prompt: str) -> str:
+        """內部方法：呼叫 AI 並清理輸出"""
+        try:
+            response = self.model.generate_content(prompt)
+            # 清理可能出現的 markdown 標記
+            return response.text.replace("```html", "").replace("```", "").strip()
+        except Exception as e:
+            print(f"❌ AI 報告生成失敗: {e}")
+            return "<p>⚠️ 報告生成發生錯誤，請稍後再試。</p>"
+
+    def generate_entry_report(self, context: Dict[str, Any]) -> str:
+        """
+        生成交易進場報告
+        """
+        # 動態決定背景色
+        bg_color = '#e6f4ea' if 'LONG' in context.get('trend_signal', '') else '#fce8e6'
+        
+        prompt = f"""
+        你是一個專業的量化交易助理。請根據以下數據寫一份 **HTML 交易快訊**。
+        
+        【交易資訊】
+        - 標的: {context.get('symbol')}
+        - 訊號: {context.get('trend_signal')}
+        - 現價: {context.get('close')}
+        - 時間: {context.get('time')}
+        
+        【技術指標數據】
+        {context.get('technical_analysis_text')}
+        
+        【輸出要求】
+        1. HTML 格式，背景色使用 {bg_color}。
+        2. 標題: 交易訊號 ({context.get('symbol')} {context.get('trend_signal')})。
+        3. 用表格呈現技術指標數據。
+        4. 根據數據簡短分析進場理由。
+        5. 給出止損/止盈建議。
+        6. 只輸出 HTML 代碼，不要有 Markdown。
+        """
+        return self._generate_html(prompt)
+
+    def generate_market_report(self, context: Dict[str, Any]) -> str:
+        """
+        生成定期市場週報
+        """
+        prompt = f"""
+        你是一個資深的加密貨幣分析師。請根據以下數據寫一份 **HTML 市場趨勢日報**。
+        
+        【市場資訊】
+        - 標的: {context.get('symbol')}
+        - 報告時間: {context.get('time')}
+        
+        【技術分析摘要】
+        {context.get('technical_analysis_text')}
+        
+        【輸出要求】
+        1. 風格專業、客觀，標題背景色使用 #e8f0fe。
+        2. **市場解讀**: 判斷目前是大趨勢多頭、空頭還是盤整。
+        3. **關鍵點位**: 分析支撐與壓力。
+        4. **操作建議**: 針對空手者與持倉者給予建議。
+        5. 只輸出 HTML 代碼。
+        """
+        return self._generate_html(prompt)
+
+    def generate_free_qa(self, user_question: str) -> str:
+        """
+        QA 系統專用介面 (配合 qa_service.py)
+        """
+        prompt = f"""
+        使用者問題: {user_question}
+        
+        請以「加密貨幣與金融交易顧問」的身分回答：
+        1. 使用 HTML 格式 (不含 ``` 標記)。
+        2. 重點加粗。
+        3. 語氣專業親切。
+        """
+        return self._generate_html(prompt)
+--- END OF FILE: services\report_service.py ---
+
+--- START OF FILE: services\trading_service.py ---
+import config
+from datetime import datetime
+import time
+
+# 引入核心工具
+from services.market_data_service import MarketDataService
+from utils.data_loader import BingXLoader
+from utils.executor import BingXExecutor
+from utils.trade_logger import TradeLogger
+
+class TradingService:
+    def __init__(self, report_service=None, email_service=None):
+        """
+        整合所有交易相關的元件
+        """
+        self.report_service = report_service
+        self.email_service = email_service
+        
+        # 1. 數據服務 (計算指標)
+        self.market_data_service = MarketDataService()
+        
+        # 2. 交易所連線 (BingX)
+        self.loader = BingXLoader()
+        self.executor = BingXExecutor(self.loader.exchange)
+        
+        # 3. 日誌記錄
+        self.logger = TradeLogger()
+
+        self.symbols = config.COIN_LIST
+
+    def run_cycle(self):
+        """
+        執行一次完整的交易循環
+        """
+        print(f"🔨 TradingService: 開始掃描市場 ({config.TRADE_TIMEFRAME})...")
+
+        for symbol in self.symbols:
+            try:
+                # ----------------------------------------
+                # Step 1: 獲取真實數據
+                # ----------------------------------------
+                df = self.loader.fetch_data(
+                    timeframe=config.TRADE_TIMEFRAME, 
+                    symbol=symbol, 
+                    limit=50 # 只需要足夠計算 MA25 即可
+                )
+                
+                if df is None or df.empty:
+                    print(f"   ⚠️ 跳過 {symbol}: 無法獲取數據")
+                    continue
+
+                # ----------------------------------------
+                # Step 2: 計算技術指標 (AIContext)
+                # ----------------------------------------
+                context = self.market_data_service.analyze_technicals(df)
+                context['symbol'] = symbol
+                
+                # ----------------------------------------
+                # Step 3: 檢查當前倉位
+                # ----------------------------------------
+                # 模擬模式下，executor 會從記憶體讀取；真實模式會打 API
+                current_position = self.executor.get_open_position(symbol)
+                
+                # ----------------------------------------
+                # Step 4: 策略邏輯 (Golden Cross / Death Cross)
+                # ----------------------------------------
+                signal = context.get('trend_signal') # LONG / SHORT
+                close_price = context.get('close')
+                
+                # 取得該幣種設定的下單量
+                order_amount = config.ORDER_SIZES.get(symbol, config.ORDER_AMOUNT)
+
+                # 印出簡易狀態
+                pos_status = current_position if current_position else "EMPTY"
+                print(f"   [{symbol}] ${close_price:.2f} | 訊號:{signal} | 持倉:{pos_status} | RSI:{context['rsi']:.1f}")
+
+                # --- 進場邏輯 ---
+                if current_position is None:
+                    if signal == "LONG":
+                        self._execute_trade("buy", symbol, order_amount, close_price, "MA金叉做多", context)
+                    elif signal == "SHORT":
+                        self._execute_trade("sell", symbol, order_amount, close_price, "MA死叉做空", context)
+                
+                # --- 出場邏輯 (簡單反向平倉) ---
+                # 如果持多單，但訊號轉空 -> 平倉
+                elif current_position == "LONG" and signal == "SHORT":
+                    self._close_trade(symbol, close_price, "訊號反轉平多")
+                
+                # 如果持空單，但訊號轉多 -> 平倉
+                elif current_position == "SHORT" and signal == "LONG":
+                    self._close_trade(symbol, close_price, "訊號反轉平空")
+
+            except Exception as e:
+                print(f"   ❌ 處理 {symbol} 時發生錯誤: {e}")
+
+    def _execute_trade(self, side, symbol, amount, price, tag, context):
+        """執行下單並發送通知"""
+        print(f"   🚀 觸發下單: {symbol} {side} ({tag})")
+        
+        # 1. 執行下單
+        order = self.executor.place_order(side, symbol, amount)
+        
+        if order or config.DRY_RUN:
+            # 2. 寫入 Log
+            self.logger.log(side.upper(), price, amount, tag, symbol=symbol)
+            
+            # 3. 發送 AI 報告與 Email
+            if self.report_service and self.email_service:
+                # 補充 context 資訊
+                context['action'] = side.upper()
+                context['price'] = price
+                
+                html_report = self.report_service.generate_entry_report(context)
+                subject = f"🚀 交易快訊: {symbol} {side.upper()} ({tag})"
+                self.email_service.send_report(subject, html_report)
+
+    def _close_trade(self, symbol, price, tag):
+        """執行平倉"""
+        print(f"   👋 觸發平倉: {symbol} ({tag})")
+        
+        # 1. 執行平倉
+        self.executor.close_position(symbol)
+        
+        # 2. 寫入 Log (平倉暫時記錄 amount=0 或依據邏輯調整)
+        self.logger.log("CLOSE", price, 0, tag, symbol=symbol)
+--- END OF FILE: services\trading_service.py ---
+
+--- START OF FILE: utils\data_loader.py ---
+import ccxt
+import pandas as pd
+import config
+import time
+
+class BingXLoader:
+    def __init__(self):
+        # 初始化交易所物件
+        self.exchange = ccxt.bingx({
+            'enableRateLimit': True, # 啟用速率限制，避免被鎖 IP
+        })
+
+    def fetch_data(self, timeframe, symbol=None, limit=100):
+        """
+        從 BingX 獲取 K 線數據
+        :param timeframe: 時框 (例如 '15m', '1h')
+        :param symbol: 交易對 (例如 'BTC-USDT')，如果為 None 則嘗試讀取 config
+        :param limit: 獲取 K 線的數量
+        """
+        # 1. 處理 Symbol (優先使用傳入的參數，否則使用 config 預設)
+        if symbol is None:
+            if hasattr(config, 'SYMBOL'):
+                symbol = config.SYMBOL
+            elif hasattr(config, 'COIN_LIST') and config.COIN_LIST:
+                symbol = config.COIN_LIST[0]
+            else:
+                print("❌ 錯誤: 未指定 Symbol 且 Config 中找不到設定")
+                return None
+
+        # CCXT 通常需要 'BTC/USDT' 格式，而我們 config 可能寫 'BTC-USDT'
+        formatted_symbol = symbol.replace('-', '/')
+
+        try:
+            # print(f"📥 正在獲取 {formatted_symbol} 的 {timeframe} K 線數據...")
+            
+            # 2. 呼叫 CCXT API
+            ohlcv = self.exchange.fetch_ohlcv(formatted_symbol, timeframe, limit=limit)
+            
+            if not ohlcv:
+                print(f"⚠️ {symbol} 獲取數據為空")
+                return None
+
+            # 3. 轉換為 DataFrame
+            df = pd.DataFrame(ohlcv, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume'])
+            
+            # 處理時間戳 (轉為人類可讀時間，方便除錯)
+            df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
+            
+            # 確保數據是 float 格式
+            df = df.astype({
+                'open': 'float',
+                'high': 'float',
+                'low': 'float',
+                'close': 'float',
+                'volume': 'float'
+            })
+            
+            return df
+
+        except Exception as e:
+            print(f"❌ {symbol} 數據獲取失敗: {e}")
+            return None
+
+# 簡單測試用
+if __name__ == "__main__":
+    loader = BingXLoader()
+    # 測試多幣種傳參
+    df = loader.fetch_data(timeframe='15m', symbol='BTC-USDT')
+    if df is not None:
+        print(f"✅ BTC-USDT 測試成功:\n{df.tail(2)}")
+--- END OF FILE: utils\data_loader.py ---
+
+--- START OF FILE: utils\executor.py ---
+import ccxt
+import config
+
+class BingXExecutor:
+    def __init__(self, exchange):
+        self.exchange = exchange
+        self.dry_run = config.DRY_RUN
+        
+        # 模擬倉位儲存: {'BTC-USDT': 'LONG', ...}
+        self.simulated_positions = {} 
+        
+        if not self.dry_run:
+            print("⚙️ [Executor] 正在為監控清單設定槓桿...")
+            for symbol in config.COIN_LIST:
+                self.set_leverage(config.LEVERAGE, symbol)
+
+    def set_leverage(self, leverage, symbol):
+        if self.dry_run: return 
+        try:
+            self.exchange.set_leverage(leverage, symbol)
+        except Exception as e:
+            print(f"⚠️ 設定槓桿失敗 ({symbol}): {e}")
+
+    def get_open_position(self, symbol):
+        """回傳 'LONG', 'SHORT' 或 None"""
+        if self.dry_run:
+            return self.simulated_positions.get(symbol)
+
+        try:
+            # 針對特定幣種查詢真實倉位
+            # 注意: CCXT BingX fetch_positions 可能需要 symbol 格式轉換
+            positions = self.exchange.fetch_positions([symbol.replace('-', '/')])
+            for pos in positions:
+                # 檢查合約數量 > 0
+                if float(pos['contracts']) > 0:
+                    return pos['side'].upper() # LONG / SHORT
+            return None
+        except Exception as e:
+            print(f"⚠️ 讀取倉位失敗 ({symbol}): {e}")
+            return None
+
+    def place_order(self, side, symbol, amount):
+        if self.dry_run:
+            print(f"🧪 [模擬] {symbol} 下單: {side.upper()} {amount}")
+            # 更新模擬狀態
+            pos_type = 'LONG' if side == 'buy' else 'SHORT'
+            self.simulated_positions[symbol] = pos_type
+            return {'id': 'sim_order_id'}
+
+        try:
+            print(f"⚡ [真實] {symbol} 下單: {side.upper()} {amount} ...")
+            order = self.exchange.create_market_order(symbol.replace('-', '/'), side, amount)
+            print(f"✅ 下單成功! ID: {order['id']}")
+            return order
+        except Exception as e:
+            print(f"❌ 下單失敗 ({symbol}): {e}")
+            return None
+        
+    def close_position(self, symbol):
+        if self.dry_run:
+            if self.simulated_positions.get(symbol):
+                print(f"🧪 [模擬] {symbol} 平倉成功")
+                self.simulated_positions[symbol] = None
+            return
+
+        try:
+            # 真實平倉：通常使用 reduceOnly 或查詢當前持倉量後反向操作
+            # 這裡簡單示範：先查方向，再反向市價全平
+            current_pos = self.get_open_position(symbol)
+            if not current_pos:
+                return
+
+            side = 'sell' if current_pos == 'LONG' else 'buy'
+            # 注意：BingX 平倉最好傳入 reduceOnly: True
+            # Amount 這裡暫時用 config 的設定，理想情況是讀取當前持倉數量
+            amount = config.ORDER_SIZES.get(symbol, config.ORDER_AMOUNT)
+
+            print(f"⚡ [真實] {symbol} 平倉: {side.upper()} ...")
+            self.exchange.create_market_order(
+                symbol.replace('-', '/'), 
+                side, 
+                amount, 
+                params={'reduceOnly': True} 
+            )
+            print(f"✅ {symbol} 平倉指令已發送")
+            
+        except Exception as e:
+            print(f"❌ 平倉失敗 ({symbol}): {e}")
+--- END OF FILE: utils\executor.py ---
+
+--- START OF FILE: utils\trade_logger.py ---
+import json
+import os
+from datetime import datetime
+import config
+
+class TradeLogger:
+    def __init__(self, filename="logs/trade_history.json"):
+        self.filename = filename
+        
+        # 確保 log 目錄存在
+        log_dir = os.path.dirname(self.filename)
+        if log_dir and not os.path.exists(log_dir):
+            os.makedirs(log_dir, exist_ok=True)
+
+    def log(self, action, price, amount, tag, pnl=0.0, balance=0.0, symbol=None):
+        """
+        記錄交易到 JSON 檔案
+        :param symbol: 交易幣種 (例如 'BTC-USDT') 🔥 新增這個參數
+        """
+        
+        # 如果呼叫時沒傳 symbol，嘗試用 config 裡的預設值 (兼容舊程式碼)
+        if symbol is None:
+            if hasattr(config, 'SYMBOL'):
+                symbol = config.SYMBOL
+            elif hasattr(config, 'COIN_LIST') and config.COIN_LIST:
+                symbol = config.COIN_LIST[0]
+            else:
+                symbol = "UNKNOWN"
+
+        record = {
+            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "symbol": symbol,  # 🔥 寫入幣種
+            "action": action,
+            "price": float(price),
+            "amount": float(amount),
+            "tag": tag,
+            "realized_pnl": float(pnl),
+            "balance": float(balance)
+        }
+
+        # 讀取現有紀錄
+        history = []
+        if os.path.exists(self.filename):
+            try:
+                with open(self.filename, "r", encoding="utf-8") as f:
+                    history = json.load(f)
+            except Exception:
+                history = []
+
+        # 加入新紀錄
+        history.append(record)
+
+        # 寫回檔案
+        try:
+            with open(self.filename, "w", encoding="utf-8") as f:
+                json.dump(history, f, indent=4, ensure_ascii=False)
+            print(f"📝 [Log] {symbol} 交易紀錄已更新: {action} @ {price}")
+        except Exception as e:
+            print(f"❌ [Log] 寫入失敗: {e}")
+
+# 測試用
+if __name__ == "__main__":
+    logger = TradeLogger()
+    logger.log("TEST_ENTRY", 50000, 0.001, "測試寫入", symbol="BTC-USDT")
+--- END OF FILE: utils\trade_logger.py ---
