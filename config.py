@@ -9,7 +9,7 @@ SECRET_KEY = mySecretKey
 
 # --- 交易標的與資金管理 ---
 COIN_LIST = [
-    "BTC-USDT",
+    # "BTC-USDT",
     "ETH-USDT"
 ]
 
@@ -39,6 +39,7 @@ STOP_LOSS_PCT = 0.02
 TAKE_PROFIT_PCT = 0.04    
 
 # --- 系統服務設定 ---
+
 # 1. Email (SMTP)
 ENABLE_EMAIL = True
 SMTP_SERVER = "smtp.gmail.com"
@@ -51,8 +52,29 @@ SMTP_TO_EMAIL = EmailReceiver
 GEMINI_API_KEY = MyGeminiApiKey
 GEMINI_MODEL_NAME = MyGeminiAiName
 
-# 3. 報告與 QA
-ENABLE_QA_SYSTEM = True
-ENABLE_PERIODIC_REPORT = True
-REPORT_INTERVAL_MINUTES = 60
-QA_CHECK_INTERVAL = 5
+# True: 真實呼叫 Gemini (消耗額度)
+# False: 使用模擬假資料 (快速測試用)
+ENABLE_AI_GENERATION = True
+
+# 3. 系統功能開關
+# (True: 開啟 | False: 暫停)
+ENABLE_QA_SYSTEM = False        # 是否開啟問答系統
+ENABLE_TRADING_SYSTEM = True   # 是否開啟交易策略檢查
+ENABLE_PERIODIC_REPORT = False  # 是否開啟定期報告
+
+# --------------------------------------------------------
+# ⏱️ 服務執行頻率設定 (單位: 秒)
+# --------------------------------------------------------
+# 說明: 支援數學運算，例如 15 * 60 代表 15 分鐘
+# --------------------------------------------------------
+
+# QA 問答檢查頻率 (建議 5~10 秒)
+INTERVAL_QA_CHECK = 5 
+
+# 交易策略檢查頻率 (建議配合 K 線時框，例如 15 分鐘)
+# INTERVAL_TRADING_CHECK = 15 * 60
+INTERVAL_TRADING_CHECK = 1 * 60 * 60
+
+# 定期市場報告頻率 (例如每 60 分鐘發一次)
+# INTERVAL_PERIODIC_REPORT = 60 * 60
+INTERVAL_PERIODIC_REPORT = 1 * 60 * 60

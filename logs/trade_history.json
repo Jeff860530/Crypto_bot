@@ -588,5 +588,185 @@
         "tag": "訊號",
         "realized_pnl": 0.0,
         "balance": 994.97174653
+    },
+    {
+        "timestamp": "2025-12-20 14:45:00",
+        "symbol": "BTC-USDT",
+        "action": "BUY",
+        "price": 88310.06,
+        "amount": 0.001,
+        "tag": "MA金叉做多",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-20 14:45:15",
+        "symbol": "ETH-USDT",
+        "action": "BUY",
+        "price": 2982.42,
+        "amount": 0.01,
+        "tag": "MA金叉做多",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-20 15:15:00",
+        "symbol": "BTC-USDT",
+        "action": "BUY",
+        "price": 88278.45,
+        "amount": 0.001,
+        "tag": "MA金叉做多",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-20 15:15:03",
+        "symbol": "ETH-USDT",
+        "action": "SELL",
+        "price": 2976.62,
+        "amount": 0.01,
+        "tag": "MA死叉做空",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-20 15:20:44",
+        "symbol": "BTC-USDT",
+        "action": "BUY",
+        "price": 88231.11,
+        "amount": 0.001,
+        "tag": "MA金叉做多",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-20 15:20:47",
+        "symbol": "ETH-USDT",
+        "action": "SELL",
+        "price": 2975.68,
+        "amount": 0.01,
+        "tag": "MA死叉做空",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-20 15:29:25",
+        "symbol": "BTC-USDT",
+        "action": "BUY",
+        "price": 88229.04,
+        "amount": 0.001,
+        "tag": "MA金叉做多",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-20 15:29:28",
+        "symbol": "ETH-USDT",
+        "action": "SELL",
+        "price": 2979.29,
+        "amount": 0.01,
+        "tag": "MA死叉做空",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-20 15:37:42",
+        "symbol": "BTC-USDT",
+        "action": "BUY",
+        "price": 88203.99,
+        "amount": 0.001,
+        "tag": "MA金叉做多",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-20 15:37:45",
+        "symbol": "ETH-USDT",
+        "action": "SELL",
+        "price": 2981.1,
+        "amount": 0.01,
+        "tag": "MA死叉做空",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-20 15:39:22",
+        "symbol": "BTC-USDT",
+        "action": "BUY",
+        "price": 88204.47,
+        "amount": 0.001,
+        "tag": "MA金叉做多",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-20 15:39:25",
+        "symbol": "ETH-USDT",
+        "action": "SELL",
+        "price": 2980.37,
+        "amount": 0.01,
+        "tag": "MA死叉做空",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-20 15:41:11",
+        "symbol": "BTC-USDT",
+        "action": "BUY",
+        "price": 88204.15,
+        "amount": 0.001,
+        "tag": "MA金叉做多",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-20 15:41:25",
+        "symbol": "ETH-USDT",
+        "action": "SELL",
+        "price": 2980.83,
+        "amount": 0.01,
+        "tag": "MA死叉做空",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-20 16:04:11",
+        "symbol": "BTC-USDT",
+        "action": "BUY",
+        "price": 88358.51,
+        "amount": 0.001,
+        "tag": "MA金叉做多",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-20 16:06:56",
+        "symbol": "BTC-USDT",
+        "action": "BUY",
+        "price": 88362.67,
+        "amount": 0.001,
+        "tag": "MA金叉做多",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-20 16:07:10",
+        "symbol": "ETH-USDT",
+        "action": "SELL",
+        "price": 2986.37,
+        "amount": 0.01,
+        "tag": "MA死叉做空",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-20 16:11:48",
+        "symbol": "ETH-USDT",
+        "action": "SELL",
+        "price": 2984.99,
+        "amount": 0.01,
+        "tag": "MA死叉做空",
+        "realized_pnl": 0.0,
+        "balance": 0.0
     }
 ]

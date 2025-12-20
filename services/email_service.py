@@ -13,6 +13,7 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.header import Header
+from email.utils import formataddr  # 🔥 新增這個引入
 import config
 
 class EmailService:
@@ -25,7 +26,7 @@ class EmailService:
 
     def send_report(self, subject: str, html_content: str, to_email: str = None) -> bool:
         """
-        發送 HTML 格式的郵件
+        發送 HTML 格式的郵件 (自動加上 Crypto Bot 標頭與寄件人名稱)
         :param subject: 郵件標題
         :param html_content: HTML 內容
         :param to_email: 收件人 (若未指定則使用 config 預設值)
@@ -40,12 +41,36 @@ class EmailService:
 
         # 建立郵件物件
         msg = MIMEMultipart()
-        msg['From'] = self.username
+        
+        # 🔥 修改這裡：讓收件人看到 "Crypto Bot" 而不是只有 Email
+        msg['From'] = formataddr(("Crypto Bot", self.username))
+        
         msg['To'] = target_email
         msg['Subject'] = Header(subject, 'utf-8')
 
+        # 組合統一的 HTML 樣板
+        full_html = f"""
+        <html>
+            <body style="font-family: Arial, sans-serif; color: #333;">
+                <div style="border-bottom: 2px solid #0d6efd; padding-bottom: 10px; margin-bottom: 20px;">
+                    <h2 style="margin: 0; color: #0d6efd;">🤖 Crypto Bot</h2>
+                </div>
+
+                <div style="line-height: 1.6;">
+                    {html_content}
+                </div>
+
+                <hr style="border: 0; border-top: 1px solid #eee; margin: 30px 0 10px 0;">
+                <p style="color: #999; font-size: 12px; margin: 0;">
+                    此郵件由 Python 交易機器人自動發送。<br>
+                    時間: {config.TRADE_TIMEFRAME} 策略監控中
+                </p>
+            </body>
+        </html>
+        """
+
         # 加入 HTML 內文
-        msg.attach(MIMEText(html_content, 'html', 'utf-8'))
+        msg.attach(MIMEText(full_html, 'html', 'utf-8'))
 
         try:
             # 建立 SMTP 連線
@@ -71,4 +96,4 @@ class EmailService:
 # 用法測試
 if __name__ == "__main__":
     email_service = EmailService()
-    email_service.send_report("測試郵件", "<h1>這是測試</h1><p>系統運作正常。</p>")
+    email_service.send_report("名稱顯示測試", "<p>您應該會看到寄件人是 <b>Crypto Bot</b>。</p>")
