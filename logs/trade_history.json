@@ -768,5 +768,345 @@
         "tag": "MA死叉做空",
         "realized_pnl": 0.0,
         "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-20 16:42:10",
+        "symbol": "ETH-USDT",
+        "action": "SELL",
+        "price": 2986.32,
+        "amount": 0.01,
+        "tag": "MA死叉做空",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-20 16:44:34",
+        "symbol": "ETH-USDT",
+        "action": "SELL",
+        "price": 2986.0,
+        "amount": 0.01,
+        "tag": "MA死叉做空",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-20 20:44:36",
+        "symbol": "ETH-USDT",
+        "action": "CLOSE",
+        "price": 2988.4,
+        "amount": 0.0,
+        "tag": "訊號反轉平空",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-20 22:44:38",
+        "symbol": "ETH-USDT",
+        "action": "SELL",
+        "price": 2978.34,
+        "amount": 0.01,
+        "tag": "MA死叉做空",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-21 04:44:41",
+        "symbol": "ETH-USDT",
+        "action": "CLOSE",
+        "price": 2982.59,
+        "amount": 0.0,
+        "tag": "訊號反轉平空",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-21 06:44:43",
+        "symbol": "ETH-USDT",
+        "action": "BUY",
+        "price": 2977.35,
+        "amount": 0.01,
+        "tag": "MA金叉做多",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-21 08:44:44",
+        "symbol": "ETH-USDT",
+        "action": "CLOSE",
+        "price": 2978.87,
+        "amount": 0.0,
+        "tag": "訊號反轉平多",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-21 10:44:45",
+        "symbol": "ETH-USDT",
+        "action": "SELL",
+        "price": 2965.44,
+        "amount": 0.01,
+        "tag": "MA死叉做空",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-21 12:44:46",
+        "symbol": "ETH-USDT",
+        "action": "CLOSE",
+        "price": 2975.66,
+        "amount": 0.0,
+        "tag": "訊號反轉平空",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-21 14:44:47",
+        "symbol": "ETH-USDT",
+        "action": "BUY",
+        "price": 2975.33,
+        "amount": 0.01,
+        "tag": "MA金叉做多",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-21 22:05:01",
+        "symbol": "ETH-USDT",
+        "action": "SELL",
+        "price": 2961.14,
+        "amount": 0.01,
+        "tag": "MA死叉做空",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-21 22:10:34",
+        "symbol": "ETH-USDT",
+        "action": "SELL",
+        "price": 2964.21,
+        "amount": 0.01,
+        "tag": "MA死叉做空",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-21 23:02:37",
+        "symbol": "ETH-USDT",
+        "action": "SELL",
+        "price": 2968.53,
+        "amount": 0.01,
+        "tag": "MA死叉做空",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-22 03:02:37",
+        "symbol": "ETH-USDT",
+        "action": "CLOSE",
+        "price": 2992.81,
+        "amount": 0.0,
+        "tag": "訊號反轉平空",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-22 05:02:38",
+        "symbol": "ETH-USDT",
+        "action": "BUY",
+        "price": 2986.13,
+        "amount": 0.01,
+        "tag": "MA金叉做多",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-22 22:17:43",
+        "symbol": "ETH-USDT",
+        "action": "BUY",
+        "price": 3064.08,
+        "amount": 0.01,
+        "tag": "MA金叉做多",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-24 20:17:44",
+        "symbol": "ETH-USDT",
+        "action": "SELL",
+        "price": 2934.68,
+        "amount": 0.01,
+        "tag": "MA死叉做空",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-24 21:17:29",
+        "symbol": "ETH-USDT",
+        "action": "CLOSE",
+        "price": 2930.42,
+        "amount": 0.0,
+        "tag": "訊號反轉平空",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-24 23:17:30",
+        "symbol": "ETH-USDT",
+        "action": "SELL",
+        "price": 2916.46,
+        "amount": 0.01,
+        "tag": "MA死叉做空",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-26 22:46:24",
+        "symbol": "ETH-USDT",
+        "action": "BUY",
+        "price": 2949.81,
+        "amount": 0.01,
+        "tag": "MA金叉做多",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-27 10:34:36",
+        "symbol": "ETH-USDT",
+        "action": "SELL",
+        "price": 2927.75,
+        "amount": 0.01,
+        "tag": "MA死叉做空",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-28 23:28:13",
+        "symbol": "ETH-USDT",
+        "action": "BUY",
+        "price": 2956.89,
+        "amount": 0.01,
+        "tag": "MA金叉做多",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-28 23:52:32",
+        "symbol": "ETH-USDT",
+        "action": "BUY",
+        "price": 2953.12,
+        "amount": 0.01,
+        "tag": "MA金叉做多",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-29 00:00:27",
+        "symbol": "ETH-USDT",
+        "action": "BUY",
+        "price": 2949.49,
+        "amount": 0.01,
+        "tag": "[MACrossStrategy] MA金叉 (Fast: 0.00 > Slow: 0.00)",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-29 00:01:24",
+        "symbol": "ETH-USDT",
+        "action": "BUY",
+        "price": 2950.68,
+        "amount": 0.01,
+        "tag": "[MACrossStrategy] MA金叉 (Fast: 0.00 > Slow: 0.00)",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-29 00:02:26",
+        "symbol": "ETH-USDT",
+        "action": "BUY",
+        "price": 2949.47,
+        "amount": 0.01,
+        "tag": "[MACrossStrategy] MA金叉 (Fast: 0.00 > Slow: 0.00)",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-29 00:04:48",
+        "symbol": "ETH-USDT",
+        "action": "BUY",
+        "price": 2949.6,
+        "amount": 0.01,
+        "tag": "[MACrossStrategy] MA金叉 (Fast: 0.00 > Slow: 0.00)",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-29 00:05:52",
+        "symbol": "ETH-USDT",
+        "action": "BUY",
+        "price": 2949.92,
+        "amount": 0.01,
+        "tag": "[MACrossStrategy] MA金叉 (Fast: 0.00 > Slow: 0.00)",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-29 00:12:44",
+        "symbol": "ETH-USDT",
+        "action": "BUY",
+        "price": 2950.47,
+        "amount": 0.01,
+        "tag": "[MACrossStrategy] MA金叉 (Fast: 0.00 > Slow: 0.00)",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-29 00:14:18",
+        "symbol": "ETH-USDT",
+        "action": "BUY",
+        "price": 2949.79,
+        "amount": 0.01,
+        "tag": "[MACrossStrategy] MA金叉 (Fast: 0.00 > Slow: 0.00)",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-29 00:14:40",
+        "symbol": "ETH-USDT",
+        "action": "BUY",
+        "price": 2950.37,
+        "amount": 0.01,
+        "tag": "[MACrossStrategy] MA金叉 (Fast: 0.00 > Slow: 0.00)",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-29 00:19:56",
+        "symbol": "ETH-USDT",
+        "action": "BUY",
+        "price": 2952.71,
+        "amount": 0.01,
+        "tag": "[MACrossStrategy] MA金叉 (Fast: 2951.50 > Slow: 2945.38)",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-29 00:23:40",
+        "symbol": "ETH-USDT",
+        "action": "BUY",
+        "price": 2950.66,
+        "amount": 0.01,
+        "tag": "[MACrossStrategy] MA金叉 (Fast: 2951.21 > Slow: 2945.30)",
+        "realized_pnl": 0.0,
+        "balance": 0.0
+    },
+    {
+        "timestamp": "2025-12-29 00:24:44",
+        "symbol": "ETH-USDT",
+        "action": "BUY",
+        "price": 2947.2,
+        "amount": 0.01,
+        "tag": "[MACrossStrategy] MA金叉 (Fast: 2950.72 > Slow: 2945.16)",
+        "realized_pnl": 0.0,
+        "balance": 0.0
     }
 ]

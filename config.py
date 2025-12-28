@@ -30,13 +30,24 @@ ORDER_SIZES = {
 }
 
 # --- 策略與指標參數 ---
-TRADE_TIMEFRAME = '15m'  # 交易用 K 線
+TRADE_TIMEFRAME = '15m'
 SMA_SHORT = 7
 SMA_LONG = 25
+KDJ_LENGTH = 9
+KDJ_SIGNAL = 3
+ZIGZAG_ORDER = 5
+
+# 🔥 新增：啟用策略清單
+# 系統會依序載入這些策略
+ACTIVE_STRATEGIES = [
+    "MACrossStrategy",
+    "HarmonicStrategy",
+    # "RsiReversalStrategy"
+]
 
 # 風控 (0.02 = 2%)
 STOP_LOSS_PCT = 0.02      
-TAKE_PROFIT_PCT = 0.04    
+TAKE_PROFIT_PCT = 0.04 
 
 # --- 系統服務設定 ---
 
@@ -58,7 +69,7 @@ ENABLE_AI_GENERATION = True
 
 # 3. 系統功能開關
 # (True: 開啟 | False: 暫停)
-ENABLE_QA_SYSTEM = False        # 是否開啟問答系統
+ENABLE_QA_SYSTEM = True        # 是否開啟問答系統
 ENABLE_TRADING_SYSTEM = True   # 是否開啟交易策略檢查
 ENABLE_PERIODIC_REPORT = False  # 是否開啟定期報告
 

@@ -1,3 +1,4 @@
+# services/qa_service.py
 import json
 import os
 import config
@@ -9,10 +10,9 @@ class QAService:
         self.filename = filename
 
     def _load_questions(self) -> List[Dict[str, Any]]:
-        """讀取問題列表 (內部方法)"""
+        """讀取問題列表"""
         if not os.path.exists(self.filename):
-            # 如果檔案不存在，建立一個範本
-            default_data = [{"id": "question000", "question": "範例問題", "answered": True}]
+            default_data = [{"id": "example01", "question": "範例: ETH走勢分析", "answered": False, "frequency": 3600}]
             self._save_questions(default_data)
             return default_data
         
@@ -24,7 +24,7 @@ class QAService:
             return []
 
     def _save_questions(self, data: List[Dict[str, Any]]) -> None:
-        """儲存問題列表 (內部方法)"""
+        """儲存問題列表"""
         with open(self.filename, 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=4)
 
@@ -46,7 +46,7 @@ class QAService:
         """
 
     def mark_as_answered(self, question_id: str) -> None:
-        """將問題標記為已回答"""
+        """更新問題狀態 (更新最後回答時間)"""
         questions = self._load_questions()
         updated = False
         
@@ -62,9 +62,7 @@ class QAService:
 
     def process_pending_questions(self, ai_reporter, mailer) -> None:
         """
-        核心業務邏輯：檢查並處理所有未回答的問題
-        :param ai_reporter: 負責生成回答的物件
-        :param mailer: 負責發送郵件的物件
+        核心邏輯：處理未回答 或 週期性需重問 的問題
         """
         if not getattr(config, 'ENABLE_QA_SYSTEM', False):
             return
@@ -72,40 +70,61 @@ class QAService:
         questions = self._load_questions()
         pending_count = 0
 
-        # 篩選出未回答的問題
-        pending_questions = [q for q in questions if not q.get('answered', False)]
-
-        if not pending_questions:
-            return
-
-        for q in pending_questions:
+        for q in questions:
             q_id = q.get('id', 'unknown')
             q_text = q.get('question', '')
+            is_answered = q.get('answered', False)
+            frequency = q.get('frequency', 0) # 預設 0 (不重複)
             
-            print(f"\n💡 發現新問題 ({q_id}): {q_text}")
-            print("🤖 AI 正在思考答案...")
+            should_process = False
 
-            try:
-                # 1. AI 生成答案
-                # 假設 ai_reporter 有 generate_free_qa 方法
-                answer_html = ai_reporter.generate_free_qa(q_text)
-                
-                # 2. 組合 Email 內容
-                email_subject = f"🧠 AI 問答回覆: {q_id}"
-                email_body = self._format_email_content(q_id, q_text, answer_html)
+            # --- 判斷邏輯 ---
+            # 情況 1: 從未回答過 -> 執行
+            if not is_answered:
+                should_process = True
+            
+            # 情況 2: 是週期性問題 (frequency > 0) -> 檢查時間差
+            elif frequency > 0:
+                last_time_str = q.get('answered_at')
+                if last_time_str:
+                    try:
+                        last_time = datetime.strptime(last_time_str, "%Y-%m-%d %H:%M:%S")
+                        # 計算距離上次回答過了好幾秒
+                        seconds_diff = (datetime.now() - last_time).total_seconds()
+                        
+                        if seconds_diff >= frequency:
+                            print(f"⏰ 週期性問題 {q_id} 時間到 (距上次 {int(seconds_diff)} 秒) -> 準備執行")
+                            should_process = True
+                    except Exception as e:
+                        print(f"⚠️ 時間格式解析錯誤 ({q_id}): {e}，將重置為可執行")
+                        should_process = True
+            
+            # --- 執行問答 ---
+            if should_process:
+                print(f"\n💡 處理問題 ({q_id}): {q_text}")
+                print("🤖 AI 正在思考答案...")
 
-                # 3. 發送郵件
-                mailer.send_report(email_subject, email_body)
-                print(f"📨 回覆已寄出: {q_id}")
+                try:
+                    # 1. AI 生成答案
+                    answer_html = ai_reporter.generate_free_qa(q_text)
+                    
+                    # 2. 組合 Email
+                    # 如果是週期性問題，標題可以加註時間，方便區分
+                    title_prefix = "🔄 [定期] " if frequency > 0 else "🧠 "
+                    email_subject = f"{title_prefix}AI 問答回覆: {q_id}"
+                    
+                    email_body = self._format_email_content(q_id, q_text, answer_html)
 
-                # 4. 標記為已回答 (更新狀態)
-                # 這裡直接呼叫 mark_as_answered 會重新讀寫一次檔案，雖然 IO 多一點但比較安全
-                self.mark_as_answered(q_id)
-                pending_count += 1
+                    # 3. 發送郵件
+                    mailer.send_report(email_subject, email_body)
+                    print(f"📨 回覆已寄出: {q_id}")
 
-            except Exception as e:
-                print(f"❌ 處理問題 {q_id} 時發生錯誤: {e}")
-                # 可以在這裡加入錯誤 logging 或通知管理員
+                    # 4. 更新狀態 (寫入回答時間)
+                    self.mark_as_answered(q_id)
+                    pending_count += 1
+
+                except Exception as e:
+                    print(f"❌ 處理問題 {q_id} 時發生錯誤: {e}")
 
         if pending_count > 0:
             print(f"✅ 本次共處理了 {pending_count} 個問題")

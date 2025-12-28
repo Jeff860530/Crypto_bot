@@ -1,7 +1,6 @@
 import ccxt
 import pandas as pd
 import config
-import time
 
 class BingXLoader:
     def __init__(self):

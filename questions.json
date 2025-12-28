@@ -3,24 +3,28 @@
         "id": "question001",
         "question": "請幫我說明什麼是 RSI KDJ WR MACD",
         "answered": true,
+        "frequency": 0,
         "answered_at": "2025-12-18 22:31:22"
     },
     {
         "id": "question002",
         "question": "請幫我說明如何觀察RSI KDJ WR MACD 可以知道假突破 還是多頭回採",
         "answered": true,
+        "frequency": 0,
         "answered_at": "2025-12-18 22:33:54"
     },
     {
         "id": "question003",
         "question": "請幫我分析72小時的ETH 15分K ",
         "answered": true,
-        "answered_at": "2025-12-18 22:46:24"
+        "frequency": 0,
+        "answered_at": "2025-12-28 23:28:10"
     },
     {
         "id": "question004",
         "question": "請幫我分析72小時的BTC 15分K",
         "answered": true,
+        "frequency": 0,
         "answered_at": "2025-12-18 22:18:35"
     },
     {
